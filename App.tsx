@@ -5,13 +5,11 @@ import AgentCard from './components/AgentCard';
 import ChatWindow from './components/ChatWindow';
 import FrequencyView from './components/FrequencyView';
 import AkashicView from './components/AkashicView';
-import LoginScreen from './components/LoginScreen';
 import { Agent, Category } from './types';
 import { AGENTS, CATEGORIES_LIST } from './constants';
 import { Search, Bell, Sparkles, Menu } from 'lucide-react';
 
 const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentView, setCurrentView] = useState('dashboard');
   const [selectedCategory, setSelectedCategory] = useState<Category>(Category.ALL);
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
@@ -24,10 +22,6 @@ const App: React.FC = () => {
                           agent.description.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
-
-  const handleLoginSuccess = () => {
-    setIsAuthenticated(true);
-  };
 
   const handleAgentClick = (agent: Agent) => {
     setSelectedAgent(agent);
@@ -49,13 +43,6 @@ const App: React.FC = () => {
         }
     }
   };
-
-  // -------------------------------------------------------------------------
-  // AUTHENTICATION CHECK
-  // -------------------------------------------------------------------------
-  if (!isAuthenticated) {
-    return <LoginScreen onLoginSuccess={handleLoginSuccess} />;
-  }
 
   // If an agent is selected, show the chat window (full screen over dashboard)
   if (selectedAgent) {
